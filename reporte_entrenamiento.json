@@ -1,0 +1,120 @@
+{
+  "version_modelo": "esquiu3-rf-beta-1.0",
+  "entrenado_en": "2026-10-13T19:35:57",
+  "limpieza": {
+    "filas_originales": 100,
+    "filas_descartadas_fecha_invalida": 2,
+    "filas_descartadas_anio_1900": 2,
+    "fechas_descartadas": [
+      "1900-03-11",
+      "1900-05-14"
+    ],
+    "filas_resultantes": 98,
+    "nulos_monto_abonado": 3,
+    "pct_nulos_monto_abonado": 3.0,
+    "nulos_monto_restantes": 0,
+    "mediana_precio_por_tipo": {
+      "Fútbol 11": 52000.0,
+      "Fútbol 5": 28000.0,
+      "Fútbol 7": 36000.0,
+      "Pádel": 18000.0
+    }
+  },
+  "dataset": {
+    "filas_entrenamiento": 98,
+    "no_show": 29,
+    "pct_no_show": 29.59,
+    "clientes_conocidos": 24,
+    "historial_default_nuevos": 1.0,
+    "periodo": [
+      "2024-03-04",
+      "2025-05-06"
+    ]
+  },
+  "variables_predictoras": [
+    "Tipo_Cancha",
+    "Dia_Semana",
+    "Hora_Num",
+    "Historial_Cumplimiento_Cliente",
+    "Temperatura_C",
+    "Humedad_Pct",
+    "Condicion_Climatica"
+  ],
+  "mejores_hiperparametros": {
+    "class_weight": "balanced",
+    "max_depth": null,
+    "max_features": null,
+    "min_samples_leaf": 1,
+    "n_estimators": 100
+  },
+  "metricas": {
+    "holdout_25pct": {
+      "accuracy": 0.96,
+      "precision_no_show": 0.875,
+      "recall_no_show": 1.0,
+      "f1_no_show": 0.9333,
+      "matriz_confusion": {
+        "TN": 17,
+        "FP": 1,
+        "FN": 0,
+        "TP": 7
+      },
+      "n_test": 25,
+      "n_no_show_test": 7
+    },
+    "validacion_cruzada_repetida_5x5_con_clima": {
+      "recall_no_show_media": 0.9107,
+      "recall_no_show_desvio": 0.1278,
+      "accuracy_media": 0.9468,
+      "accuracy_desvio": 0.0474,
+      "precision_no_show_media": 0.9177,
+      "n_evaluaciones": 25
+    },
+    "validacion_cruzada_repetida_5x5_sin_clima": {
+      "recall_no_show_media": 0.768,
+      "recall_no_show_desvio": 0.164,
+      "accuracy_media": 0.8798,
+      "accuracy_desvio": 0.0627,
+      "precision_no_show_media": 0.8538,
+      "n_evaluaciones": 25
+    },
+    "out_of_fold_5fold_dataset_completo": {
+      "accuracy": 0.949,
+      "precision_no_show": 0.9,
+      "recall_no_show": 0.931,
+      "f1_no_show": 0.9153,
+      "matriz_confusion": {
+        "TN": 66,
+        "FP": 3,
+        "FN": 2,
+        "TP": 27
+      }
+    },
+    "mejora_recall_por_clima_pp": 14.27,
+    "baseline_evidencia_2": {
+      "accuracy": 0.78,
+      "recall_no_show": 0.72
+    },
+    "objetivo_recall_mayor_72_cumplido": true,
+    "importancia_variables": {
+      "num__Humedad_Pct": 0.3894,
+      "num__Historial_Cumplimiento_Cliente": 0.3561,
+      "cat__Condicion_Climatica_Despejado": 0.149,
+      "num__Temperatura_C": 0.0394,
+      "num__Dia_Semana": 0.0178,
+      "cat__Tipo_Cancha_Pádel": 0.0169,
+      "num__Hora_Num": 0.0144,
+      "cat__Condicion_Climatica_Nublado": 0.0117,
+      "cat__Condicion_Climatica_Lluvia": 0.0043,
+      "cat__Tipo_Cancha_Fútbol 7": 0.0006,
+      "cat__Condicion_Climatica_Frío Extremo": 0.0003,
+      "cat__Tipo_Cancha_Fútbol 11": 0.0,
+      "cat__Tipo_Cancha_Fútbol 5": 0.0
+    }
+  },
+  "umbrales_riesgo": {
+    "amarillo": 0.25,
+    "rojo": 0.5
+  },
+  "advertencia": "Dataset pequeno (<100 reservas validas): las metricas tienen alta varianza; se reportan hold-out y validacion cruzada repetida."
+}

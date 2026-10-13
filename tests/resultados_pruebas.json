@@ -1,0 +1,84 @@
+{
+  "CF-01": {
+    "duracion_s": 0.04,
+    "estado": "PASSED",
+    "nodeid": "tests/test_esquiu3.py::test_cf01_registro_exitoso_en_cancha_disponible",
+    "obtenido": "HTTP 201, reserva R-0001 creada; prediccion adjunta: Verde - Bajo (0.00%); la grilla marca Cancha 5 20:00 como 'ocupada'"
+  },
+  "CF-02": {
+    "duracion_s": 0.057,
+    "estado": "PASSED",
+    "nodeid": "tests/test_esquiu3.py::test_cf02_bloqueo_de_reserva_duplicada",
+    "obtenido": "Segundo intento -> HTTP 409 codigo HORARIO_NO_DISPONIBLE: \"Horario no disponible: Cancha 5 ya está reservada el 2026-11-02 a las 20:00 (reserva R-0001).\". Solo 1 reserva persistida; otra cancha / otra hora -> 201; turno historico del cuaderno -> 409"
+  },
+  "CF-03": {
+    "duracion_s": 0.015,
+    "estado": "PASSED",
+    "nodeid": "tests/test_esquiu3.py::test_cf03_riesgo_alto_cliente_con_faltas_horario_pico[Fr\\xedo Extremo-4.0-70]",
+    "obtenido_Frío Extremo": "CLI-103 (historial Malo) 22:00 Frío Extremo: Rojo - Alto 100.00%; seña $18,000; acción: \"Exigir seña obligatoria del 50% y enviar recordatorio automático por WhatsApp\"",
+    "obtenido_Lluvia": "CLI-103 (historial Malo) 22:00 Lluvia: Rojo - Alto 100.00%; seña $18,000; acción: \"Exigir seña obligatoria del 50% y enviar recordatorio automático por WhatsApp\""
+  },
+  "CF-04": {
+    "duracion_s": 0.044,
+    "estado": "PASSED",
+    "nodeid": "tests/test_esquiu3.py::test_cf04_prediccion_cliente_nuevo_sin_historial",
+    "obtenido": "HTTP 200 (sin Error 500). cliente_nuevo=true, historial por defecto=1.0, Verde - Bajo (0.00%). Escenario adverso (22:00, lluvia): Rojo - Alto"
+  },
+  "CS-01": {
+    "duracion_s": 0.021,
+    "estado": "PASSED",
+    "nodeid": "tests/test_esquiu3.py::test_cs01_rbac_recepcionista_denegado_en_metricas",
+    "obtenido": "Recepcionista -> 403 ACCESO_DENEGADO; sin header -> 401; rol 'Hacker' -> 403; Admin -> 200 con métricas"
+  },
+  "CS-02": {
+    "duracion_s": 0.024,
+    "estado": "PASSED",
+    "nodeid": "tests/test_esquiu3.py::test_cs02_sanitizacion_xss",
+    "obtenido": "HTTP 201; Cliente_ID almacenado como \"&lt;script&gt;alert(&#x27;XSS&#x27;)&lt;/script&gt;\"; nota escapada; la grilla no contiene <script>; cabeceras CSP (script-src 'self') y X-Content-Type-Options presentes"
+  },
+  "CU-01": {
+    "duracion_s": 0.052,
+    "estado": "PASSED",
+    "nodeid": "tests/test_esquiu3.py::test_cu01_consistencia_del_semaforo",
+    "obtenido": "Escenarios evaluados (color/etiqueta/prob): verde/Verde - Bajo/0%; rojo/Rojo - Alto/84%; rojo/Rojo - Alto/73%. Umbrales: amarillo>=0.25, rojo>=0.5"
+  },
+  "CU-02": {
+    "duracion_s": 0.802,
+    "estado": "PASSED",
+    "latencia_ms": {
+      "max": 67.8,
+      "media": 15.8,
+      "n": 30,
+      "p95": 15.2
+    },
+    "nodeid": "tests/test_esquiu3.py::test_cu02_latencia_inferencia_menor_a_300ms",
+    "obtenido": "30 llamadas HTTP reales (uvicorn local): media=15.8 ms, p95=15.2 ms, máx=67.8 ms (< 300 ms)"
+  },
+  "EX-01": {
+    "duracion_s": 0.015,
+    "estado": "PASSED",
+    "nodeid": "tests/test_esquiu3.py::test_ex01_validaciones_y_solapamiento",
+    "obtenido": "Cancha/Tipo/Hora/Clima/Temperatura inválidos -> 422; solape 20:30 -> bloqueado; contiguo 21:00 -> libre"
+  },
+  "EX-02": {
+    "duracion_s": 0.017,
+    "estado": "PASSED",
+    "nodeid": "tests/test_esquiu3.py::test_ex02_ocupacion_13_canchas_y_clima_con_fallback",
+    "obtenido": "13 canchas x 9 turnos; 2024-03-04 con 3 turnos ocupados; clima con caída simulada -> fallback histórico"
+  },
+  "EX-03": {
+    "duracion_s": 0.0,
+    "estado": "PASSED",
+    "nodeid": "tests/test_esquiu3.py::test_ex03_regresion_bug03_css_grilla_con_scroll",
+    "obtenido": "CSS: .grid-scroll {overflow:auto; max-height} + thead/primera columna sticky. Verificación visual 1366x768 en navegador"
+  },
+  "EX-04": {
+    "duracion_s": 0.02,
+    "estado": "PASSED",
+    "nodeid": "tests/test_esquiu3.py::test_ex04_analisis_de_clima_libre[Nublado-18.5-60]",
+    "obtenido_Despejado": "Despejado 31.0 °C 40%: Rojo - Alto 96%; diferencia vs día despejado +0 pp",
+    "obtenido_Frío Extremo": "Frío Extremo -3.0 °C 80%: Rojo - Alto 85%; diferencia vs día despejado -11 pp",
+    "obtenido_Lluvia": "Lluvia 9.0 °C 95%: Rojo - Alto 84%; diferencia vs día despejado -12 pp",
+    "obtenido_Nublado": "Nublado 18.5 °C 60%: Rojo - Alto 93%; diferencia vs día despejado -3 pp"
+  }
+}

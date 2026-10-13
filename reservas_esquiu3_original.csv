@@ -1,0 +1,101 @@
+Fecha,Hora,Cancha,Tipo_Cancha,Cliente_ID,Estado_Reserva,Monto_Abonado,Temperatura_C,Humedad_Pct,Condicion_Climatica,Anotacion_Cuaderno
+2024-03-04,19:00,Cancha 4,Fútbol 7,CLI-101,Completada,36000,24.5,55,Despejado,Juan Perez fijo lunes - pago efvo
+2024-03-04,20:00,Cancha 5,Fútbol 7,CLI-102,Completada,36000,23.0,58,Despejado,Los pibes del banco - pagaron todo
+2024-03-04,21:00,Cancha 6,Fútbol 7,CLI-103,Ausente,0,21.5,65,Despejado,Carlitos - no vinieron ni atendieron wpp
+2024-03-05,19:00,Cancha 4,Fútbol 7,CLI-104,Completada,36000,25.0,50,Despejado,Martes fijo Fede
+2024-03-05,21:00,Cancha 7,Fútbol 7,CLI-105,Cancelada,,18.0,88,Lluvia,Avisaron 15 min antes que no llegan (letra borrosa)
+2024-03-06,20:00,Cancha 5,Fútbol 7,CLI-106,Completada,36000,22.0,60,Despejado,Grupo facu - seña + resto en cancha
+2024-03-06,22:00,Cancha 8,Fútbol 7,CLI-103,Ausente,0,20.0,62,Nublado,Carlitos de nuevo clavo el turno
+2024-03-07,19:00,Cancha 1,Fútbol 5,CLI-107,Completada,28000,26.0,48,Despejado,Turno de las 7 ok
+2024-03-07,21:00,Cancha 4,Fútbol 7,CLI-108,Completada,36000,23.5,52,Despejado,Jueves fijo - pagado
+2024-03-07,22:00,Cancha 6,Fútbol 7,CLI-109,Cancelada,0,17.5,92,Lluvia,Largó el agua a las 21:30 y bajaron el turno
+2024-03-09,16:00,Cancha 9,Fútbol 11,CLI-110,Completada,52000,27.0,45,Despejado,Torneo sabado tarde - cancha grande
+2024-03-09,18:00,Cancha 10,Fútbol 11,CLI-111,Completada,52000,25.5,50,Despejado,Veteranos sabado ok
+2024-03-10,17:00,Cancha 11,Fútbol 11,CLI-112,Completada,52000,26.0,47,Despejado,Domingo F11 completo
+1900-03-11,20:00,Cancha 5,Fútbol 7,CLI-101,Completada,36000,22.0,55,Despejado,Error fecha al pasar planilla - Juan Perez
+2024-03-11,21:00,Cancha 6,Fútbol 7,CLI-113,Ausente,0,20.5,60,Nublado,Anotado a lapiz 'Lucas' - nunca apareció
+2024-03-12,19:00,Cancha 12,Pádel,CLI-114,Completada,18000,24.0,52,Despejado,Padel pareja 1
+2024-03-12,20:00,Cancha 4,Fútbol 7,CLI-115,Completada,36000,23.0,55,Despejado,Pago transferencia + efvo
+2024-03-13,21:00,Cancha 5,Fútbol 7,CLI-105,Cancelada,0,16.0,90,Lluvia,Cancelaron sobre la hora por lluvia
+2024-03-14,19:00,Cancha 7,Fútbol 7,CLI-116,Completada,36000,21.0,60,Despejado,Todo ok
+2024-03-14,22:00,Cancha 4,Fútbol 7,CLI-117,Ausente,0,19.5,64,Nublado,No contestaron confirmación
+2024-04-01,20:00,Cancha 5,Fútbol 7,CLI-101,Completada,36000,20.0,58,Despejado,Feriado - vinieron igual
+2024-04-02,21:00,Cancha 6,Fútbol 7,CLI-118,Cancelada,0,15.0,85,Lluvia,Feriado lluvioso - se bajaron a ultimo momento
+2024-04-03,19:00,Cancha 4,Fútbol 7,CLI-106,Completada,36000,19.0,60,Despejado,Miercoles fijo ok
+2024-04-04,20:00,Cancha 8,Fútbol 7,CLI-108,Completada,,18.5,62,Despejado,Se borraron los numeros del cuaderno pero jugaron
+2024-04-04,22:00,Cancha 2,Fútbol 5,CLI-119,Ausente,0,16.0,70,Nublado,Turno de las 10 - cancha vacia
+2024-04-06,15:00,Cancha 9,Fútbol 11,CLI-110,Completada,52000,22.0,50,Despejado,Sabado F11 ok
+2024-04-06,17:00,Cancha 10,Fútbol 11,CLI-120,Completada,52000,21.0,52,Despejado,Amistoso sabado
+2024-04-08,19:00,Cancha 4,Fútbol 7,CLI-101,Completada,36000,18.0,55,Despejado,Juan Perez ok
+2024-04-08,21:00,Cancha 5,Fútbol 7,CLI-103,Ausente,0,16.5,60,Despejado,Otra vez dejo clavada la cancha 5
+2024-04-09,20:00,Cancha 6,Fútbol 7,CLI-104,Completada,36000,19.0,54,Despejado,Pagado en buffet
+2024-04-10,21:00,Cancha 7,Fútbol 7,CLI-121,Cancelada,0,13.0,95,Lluvia,Temporal - suspendido 20 min antes
+2024-04-11,19:00,Cancha 13,Pádel,CLI-122,Completada,18000,17.0,58,Nublado,Padel techado ok
+2024-04-11,22:00,Cancha 4,Fútbol 7,CLI-113,Ausente,0,14.5,65,Nublado,Sin seña - no vinieron
+2024-05-06,19:00,Cancha 5,Fútbol 7,CLI-102,Completada,36000,14.0,60,Despejado,Lunes 19hs ok
+2024-05-06,21:00,Cancha 6,Fútbol 7,CLI-123,Completada,36000,11.5,65,Nublado,Jugaron todo ok
+2024-05-07,20:00,Cancha 4,Fútbol 7,CLI-104,Completada,36000,12.0,62,Despejado,Martes fijo
+2024-05-07,22:00,Cancha 8,Fútbol 7,CLI-117,Cancelada,0,6.5,75,Frío Extremo,Avisaron a las 21:40 que hacia mucho frio
+2024-05-08,19:00,Cancha 3,Fútbol 5,CLI-124,Completada,28000,13.0,58,Despejado,F5 miercoles
+2024-05-09,21:00,Cancha 5,Fútbol 7,CLI-108,Completada,36000,11.0,60,Despejado,Jueves fijo ok
+2024-05-11,16:00,Cancha 9,Fútbol 11,CLI-111,Completada,52000,15.5,50,Despejado,F11 sabado
+2024-05-12,17:00,Cancha 11,Fútbol 11,CLI-112,Completada,52000,16.0,48,Despejado,F11 domingo
+1900-05-14,20:00,Cancha 4,Fútbol 7,CLI-106,Completada,36000,12.5,55,Despejado,Mal tipeado el año al pasar del cuaderno
+2024-05-15,21:00,Cancha 6,Fútbol 7,CLI-105,Ausente,0,7.0,80,Frío Extremo,Helada fuerte - no aparecieron
+2024-05-16,20:00,Cancha 7,Fútbol 7,CLI-115,Completada,36000,10.5,60,Despejado,Cumplieron ok
+2024-06-03,19:00,Cancha 4,Fútbol 7,CLI-101,Completada,36000,11.0,62,Despejado,Turno fijo lunes
+2024-06-03,22:00,Cancha 5,Fútbol 7,CLI-119,Ausente,0,5.0,78,Frío Extremo,Cancha vacia a las 22hs
+2024-06-04,20:00,Cancha 6,Fútbol 7,CLI-104,Completada,36000,12.0,58,Despejado,Ok
+2024-06-05,21:00,Cancha 4,Fútbol 7,CLI-103,Cancelada,0,8.0,88,Lluvia,Llovizna y frio - cancelo sobre la hora
+2024-06-06,19:00,Cancha 8,Fútbol 7,CLI-116,Completada,36000,11.5,64,Nublado,Pago efectivo
+2024-06-08,15:00,Cancha 10,Fútbol 11,CLI-110,Completada,,14.0,55,Despejado,Jugaron pero falto anotar monto en hoja
+2024-06-10,20:00,Cancha 5,Fútbol 7,CLI-102,Completada,36000,10.0,60,Despejado,Fijo lunes 20hs
+2024-06-11,21:00,Cancha 7,Fútbol 7,CLI-113,Ausente,0,4.5,72,Frío Extremo,No vinieron - bloquear cliente sin seña
+2024-06-12,19:00,Cancha 12,Pádel,CLI-114,Completada,18000,9.0,65,Nublado,Padel ok
+2024-06-13,20:00,Cancha 4,Fútbol 7,CLI-108,Completada,36000,11.0,58,Despejado,Jueves 20hs ok
+2024-07-01,19:00,Cancha 5,Fútbol 7,CLI-101,Completada,36000,9.5,55,Despejado,Lunes ok
+2024-07-02,22:00,Cancha 6,Fútbol 7,CLI-121,Cancelada,0,3.5,75,Frío Extremo,Cancelaron 21:30 hs por frio
+2024-07-03,20:00,Cancha 4,Fútbol 7,CLI-106,Completada,36000,10.0,52,Despejado,Miercoles fijo
+2024-07-04,21:00,Cancha 8,Fútbol 7,CLI-117,Ausente,0,5.5,68,Frío Extremo,Ausentes sin aviso
+2024-07-06,16:00,Cancha 9,Fútbol 11,CLI-120,Completada,52000,13.5,48,Despejado,Sabado F11
+2024-07-07,17:00,Cancha 10,Fútbol 11,CLI-111,Completada,52000,14.0,50,Despejado,Domingo F11
+2024-08-05,19:00,Cancha 4,Fútbol 7,CLI-101,Completada,36000,15.0,50,Despejado,Juan Perez ok
+2024-08-05,21:00,Cancha 5,Fútbol 7,CLI-102,Completada,36000,13.5,54,Despejado,Ok
+2024-08-06,20:00,Cancha 6,Fútbol 7,CLI-104,Completada,36000,16.0,48,Despejado,Martes ok
+2024-08-07,22:00,Cancha 7,Fútbol 7,CLI-105,Cancelada,0,10.0,90,Lluvia,Lluvia nocturna - cancelado
+2024-08-08,19:00,Cancha 1,Fútbol 5,CLI-107,Completada,28000,14.5,55,Nublado,F5 jueves
+2024-08-08,21:00,Cancha 4,Fútbol 7,CLI-108,Completada,36000,13.0,58,Nublado,Jueves F7
+2024-08-10,16:00,Cancha 11,Fútbol 11,CLI-112,Completada,52000,18.0,45,Despejado,Torneo relampago sabado
+2024-09-02,20:00,Cancha 5,Fútbol 7,CLI-115,Completada,36000,20.0,48,Despejado,Lunes 20hs
+2024-09-03,21:00,Cancha 6,Fútbol 7,CLI-103,Ausente,0,18.5,52,Despejado,Volvio a reservar con otro numero y falto
+2024-09-04,19:00,Cancha 4,Fútbol 7,CLI-106,Completada,36000,21.0,46,Despejado,Miercoles ok
+2024-09-05,22:00,Cancha 8,Fútbol 7,CLI-119,Cancelada,0,15.0,88,Lluvia,Tormenta de santa rosa - cancelado
+2024-09-07,17:00,Cancha 9,Fútbol 11,CLI-110,Completada,52000,23.0,42,Despejado,Sabado tarde
+2024-10-07,19:00,Cancha 4,Fútbol 7,CLI-101,Completada,36000,24.0,50,Despejado,Lunes fijo
+2024-10-08,20:00,Cancha 5,Fútbol 7,CLI-104,Completada,36000,23.5,52,Despejado,Martes fijo
+2024-10-09,21:00,Cancha 6,Fútbol 7,CLI-113,Ausente,0,21.0,58,Despejado,No vinieron
+2024-10-10,19:00,Cancha 2,Fútbol 5,CLI-124,Completada,28000,25.0,48,Despejado,F5 ok
+2024-10-10,21:00,Cancha 7,Fútbol 7,CLI-108,Completada,36000,22.5,52,Despejado,Jueves fijo
+2024-10-12,18:00,Cancha 10,Fútbol 11,CLI-111,Completada,52000,26.0,45,Despejado,F11 sabado
+2024-11-04,20:00,Cancha 4,Fútbol 7,CLI-102,Completada,36000,27.0,50,Despejado,Lunes calor
+2024-11-05,22:00,Cancha 5,Fútbol 7,CLI-109,Cancelada,0,19.0,92,Lluvia,Lluvia fuerte a la noche
+2024-11-06,19:00,Cancha 6,Fútbol 7,CLI-106,Completada,36000,26.5,48,Despejado,Miercoles ok
+2024-11-07,21:00,Cancha 8,Fútbol 7,CLI-116,Completada,36000,25.0,52,Despejado,Jueves 21hs
+2025-01-13,20:00,Cancha 4,Fútbol 7,CLI-101,Completada,36000,30.0,45,Despejado,Verano lunes
+2025-01-14,22:00,Cancha 5,Fútbol 7,CLI-117,Ausente,0,27.5,55,Despejado,Turno 22hs vacio
+2025-01-15,19:00,Cancha 12,Pádel,CLI-114,Completada,18000,31.0,42,Despejado,Padel verano
+2025-01-16,21:00,Cancha 6,Fútbol 7,CLI-108,Completada,36000,28.0,50,Despejado,Jueves fijo
+2025-02-10,19:00,Cancha 4,Fútbol 7,CLI-102,Completada,36000,28.5,52,Despejado,Lunes 19hs
+2025-02-11,21:00,Cancha 7,Fútbol 7,CLI-105,Cancelada,0,21.0,94,Lluvia,Chaparron 20:30 - cancelaron
+2025-02-12,20:00,Cancha 5,Fútbol 7,CLI-106,Completada,36000,26.0,55,Despejado,Miercoles ok
+2025-02-15,18:00,Cancha 9,Fútbol 11,CLI-110,Completada,52000,29.0,48,Despejado,Sabado F11
+2025-03-10,19:00,Cancha 4,Fútbol 7,CLI-101,Completada,36000,24.0,55,Despejado,Juan Perez lunes
+2025-03-11,20:00,Cancha 5,Fútbol 7,CLI-104,Completada,36000,23.0,58,Despejado,Martes ok
+2025-03-12,22:00,Cancha 6,Fútbol 7,CLI-103,Ausente,0,20.0,65,Nublado,Falto de nuevo sin avisar
+2025-03-13,21:00,Cancha 8,Fútbol 7,CLI-108,Completada,36000,22.0,54,Despejado,Jueves ok
+2025-04-07,19:00,Cancha 3,Fútbol 5,CLI-107,Completada,28000,19.5,58,Despejado,F5 lunes
+2025-04-08,21:00,Cancha 4,Fútbol 7,CLI-121,Cancelada,0,14.5,90,Lluvia,Lluvia martes noche
+2025-04-09,20:00,Cancha 5,Fútbol 7,CLI-115,Completada,36000,18.0,60,Despejado,Miercoles 20hs
+2025-04-12,16:00,Cancha 10,Fútbol 11,CLI-112,Completada,52000,21.0,50,Despejado,Sabado F11
+2025-05-05,20:00,Cancha 6,Fútbol 7,CLI-102,Completada,36000,15.0,62,Despejado,Lunes 20hs
+2025-05-06,22:00,Cancha 7,Fútbol 7,CLI-113,Ausente,0,7.5,76,Frío Extremo,Frio - no vinieron ni avisaron
