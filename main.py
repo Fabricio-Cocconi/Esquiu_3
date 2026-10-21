@@ -587,3 +587,7 @@ if STATIC_DIR.exists():
     @app.get("/", include_in_schema=False)
     def index():
         return FileResponse(STATIC_DIR / "index.html")
+
+    @app.get("/favicon.ico", include_in_schema=False)
+    def favicon():
+        return FileResponse(STATIC_DIR / "logo.png", media_type="image/png")

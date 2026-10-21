@@ -38,7 +38,13 @@ h1, h2, h3, h4 { font-family: var(--font-h); margin: 0; letter-spacing: -.02em; 
   background: linear-gradient(180deg, hsl(224 26% 13%), hsl(224 24% 9%)); color: #fff;
   box-shadow: 0 6px 26px -8px hsl(220 70% 45% / .45); position: sticky; top: 0; z-index: 30;
 }
-.brand { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.brand { display: flex; align-items: center; gap: 12px; cursor: pointer; text-decoration: none; }
+.brand-logo-img {
+  height: 42px; width: auto; max-width: 48px; object-fit: contain; display: block;
+  filter: drop-shadow(0 2px 10px hsl(24 100% 45% / .5));
+  transition: transform .2s ease;
+}
+.brand:hover .brand-logo-img { transform: scale(1.08); }
 .brand-mark {
   width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center;
   font: 800 13px var(--font-h); color: #fff; background: var(--accent); box-shadow: 0 4px 14px -4px var(--accent);
@@ -102,7 +108,19 @@ h1, h2, h3, h4 { font-family: var(--font-h); margin: 0; letter-spacing: -.02em; 
 
 /* Hero Section */
 .hero-container {
-  text-align: center; max-width: 900px; margin: 40px auto 30px; padding: 20px;
+  text-align: center; max-width: 900px; margin: 30px auto 30px; padding: 20px;
+}
+.hero-logo-box {
+  margin-bottom: 22px; display: flex; justify-content: center;
+}
+.hero-logo-img {
+  height: 125px; width: auto; object-fit: contain;
+  filter: drop-shadow(0 14px 30px hsl(24 100% 45% / .4));
+  animation: logoFloat 4s ease-in-out infinite;
+}
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 .hero-badge {
   display: inline-block; padding: 6px 16px; border-radius: 999px;
@@ -424,8 +442,12 @@ table.csv tr.monto_nulo { background: hsl(44 95% 91%); }
 
 /* Footer */
 .app-footer {
-  border-top: 1px solid var(--line); background: #fff; padding: 30px 24px;
+  border-top: 1px solid var(--line); background: #fff; padding: 34px 24px;
   text-align: center; color: var(--muted); font-size: 13px; margin-top: 40px;
+}
+.footer-logo-img {
+  height: 48px; width: auto; object-fit: contain; margin-bottom: 12px;
+  filter: drop-shadow(0 2px 8px hsl(24 80% 40% / .3));
 }
 .footer-content p { margin: 4px 0; }
 .footer-links { margin-top: 10px; display: flex; gap: 10px; justify-content: center; }

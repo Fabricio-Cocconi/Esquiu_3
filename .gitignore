@@ -28,7 +28,19 @@ venv.bak/
 Thumbs.db
 desktop.ini
 
-# Logs and scratch
+# Logs and scripts
 *.log
-scratch/
+scripts/
 .system_generated/
+.vercel/
+
+# Archivos de entrega formal Word, PDF, Excel y documentación local (no se suben al repositorio)
+*.docx
+*.doc
+*.pdf
+*.xlsx
+docs/
+MUESTRA_DEFENSA/
+GUIA_METODOS_TESTEO.md
+
+
