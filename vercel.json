@@ -1,15 +1,4 @@
 {
-  "version": 2,
-  "functions": {
-    "api/index.py": {
-      "includeFiles": [
-        "modelo_esquiu3.joblib",
-        "reservas_esquiu3.csv",
-        "reporte_entrenamiento.json",
-        "static/**"
-      ]
-    }
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
