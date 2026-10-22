@@ -581,13 +581,39 @@ def _reporte() -> dict:
 
 
 # ---------------------------------- Frontend estatico ---------------------------------
+def _buscar_index_html() -> Path | None:
+    candidatos = [
+        STATIC_DIR / "index.html",
+        BASE_DIR / "index.html",
+        Path.cwd() / "static" / "index.html",
+        Path.cwd() / "index.html",
+        Path("/var/task/static/index.html"),
+    ]
+    for c in candidatos:
+        if c.exists():
+            return c
+    return None
+
+
 if STATIC_DIR.exists():
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
-    @app.get("/", include_in_schema=False)
-    def index():
-        return FileResponse(STATIC_DIR / "index.html")
 
-    @app.get("/favicon.ico", include_in_schema=False)
-    def favicon():
-        return FileResponse(STATIC_DIR / "logo.png", media_type="image/png")
+@app.get("/", include_in_schema=False)
+@app.get("/index.html", include_in_schema=False)
+@app.get("/api/index", include_in_schema=False)
+@app.get("/api/index.py", include_in_schema=False)
+def index():
+    ruta = _buscar_index_html()
+    if ruta and ruta.exists():
+        return FileResponse(ruta)
+    return JSONResponse(status_code=200, content={"estado": "ok", "mensaje": "Esquiu3 API operativa"})
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    logo = STATIC_DIR / "logo.png"
+    if logo.exists():
+        return FileResponse(logo, media_type="image/png")
+    return JSONResponse(status_code=204, content=None)
+

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Esquiu3 · Sistema Inteligente de Reservas y Predicción de No-Show</title>
+  <meta name="description" content="Esquiu3: Gestión de 13 canchas deportivas con semáforo predictivo de No-Show basado en Machine Learning y variables meteorológicas. Evidencia 3 ISPC 2026.">
+  <link rel="icon" type="image/png" href="/static/logo.png">
+  <link rel="shortcut icon" type="image/png" href="/static/logo.png">
+  <link rel="apple-touch-icon" href="/static/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <!-- Header / Barra Superior -->
+  <header class="topbar">
+    <div class="brand" role="banner" title="Esquiu 3 - Inicio">
+      <img src="/static/logo.png" alt="Logo SQ3 Esquiu" class="brand-logo-img">
+      <div>
+        <h1>Esquiu <span>3</span> <em>PREVIEW</em></h1>
+        <p>Gestión de 13 canchas · Analítica Predictiva de No-Show</p>
+      </div>
+    </div>
+
+    <!-- Navegación de Vistas Principales (como en la maqueta de referencia) -->
+    <div class="top-nav-modes" role="navigation" aria-label="Navegación principal">
+      <button class="mode-btn" id="mode-dashboard" type="button">
+        <span class="mode-icon">⊞</span> Dashboard MVP
+      </button>
+      <button class="mode-btn active" id="mode-landing" type="button">
+        <span class="mode-icon">🏠</span> Home (Landing)
+      </button>
+    </div>
+
+    <!-- Pestañas operativas (visibles en modo Dashboard) -->
+    <nav class="tabs" id="dashboard-subtabs" role="tablist" aria-label="Subvistas del dashboard" hidden>
+      <button class="tab active" id="tab-recepcion" data-view="recepcion" role="tab" aria-selected="true">Recepción y Turnos</button>
+      <button class="tab" id="tab-grilla" data-view="grilla" role="tab" aria-selected="false">Grilla de 13 Canchas</button>
+      <button class="tab" id="tab-auditoria" data-view="auditoria" role="tab" aria-selected="false">Auditoría &amp; ML</button>
+    </nav>
+
+    <div class="session" id="session-controls">
+      <span class="chip ok" id="chip-modelo" title="Versión del modelo cargado">Modelo: esquiu3-rf-beta-1.0</span>
+      <label class="role-picker" for="select-rol">
+        <span>Rol (simulado)</span>
+        <select id="select-rol">
+          <option value="Admin">Admin</option>
+          <option value="Recepcionista">Recepcionista</option>
+        </select>
+      </label>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- MODO 1: LANDING PAGE INTERACTIVA (ANIMADA)                               -->
+  <!-- ========================================================================= -->
+  <section class="landing-page active" id="view-landing" aria-label="Presentación del Proyecto">
+    <!-- Hero Section -->
+    <div class="hero-container">
+      <div class="hero-logo-box animate-fade-down">
+        <img src="/static/logo.png" alt="Esquiu 3 - Logo SQ3" class="hero-logo-img">
+      </div>
+      <div class="hero-badge animate-fade-down">
+        <span>⚽ Proyecto Académico ISPC 2026 · Grupo Nº 6</span>
+      </div>
+      <h1 class="hero-title animate-fade-up">
+        Optimiza tu Espacio,<br>
+        <span class="highlight-orange">Potencia tu Comunidad</span>
+      </h1>
+      <p class="hero-subtitle animate-fade-up delay-1">
+        Gestiona reservas en tiempo real para 13 canchas deportivas, predice el ausentismo (No-Show)
+        mediante Inteligencia Artificial meteorológica y maximiza la rentabilidad operativa de tu complejo.
+      </p>
+      <div class="hero-actions animate-fade-up delay-2">
+        <button class="btn-hero-primary" id="btn-hero-start" type="button">Empezar Ahora →</button>
+        <button class="btn-hero-secondary" id="btn-hero-features" type="button">Ver Funciones</button>
+      </div>
+    </div>
+
+    <!-- Tarjetas de Métricas de Alto Impacto -->
+    <div class="landing-metrics-strip reveal">
+      <div class="metric-pill">
+        <b>91.1%</b>
+        <span>Recall No-Show</span>
+      </div>
+      <div class="metric-pill">
+        <b>94.7%</b>
+        <span>Accuracy Global</span>
+      </div>
+      <div class="metric-pill">
+        <b>+14.3 pp</b>
+        <span>Aporte Climático</span>
+      </div>
+      <div class="metric-pill">
+        <b>&lt; 20 ms</b>
+        <span>Latencia Inferencia</span>
+      </div>
+    </div>
+
+    <!-- Sección Funcionalidades que te encantarán -->
+    <div class="landing-section" id="section-features">
+      <div class="section-header reveal">
+        <h2>Funcionalidades que te encantarán</h2>
+        <p>Todo lo que necesitas para administrar tus canchas de forma eficiente y prevenir pérdidas económicas.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card reveal delay-1">
+          <div class="feature-icon-box">📅</div>
+          <h3>Reserva Inteligente</h3>
+          <p>Calendario intuitivo para evitar solapamientos y gestionar horarios de forma visual sin conflictos de reservas duplicadas.</p>
+        </div>
+
+        <div class="feature-card reveal delay-2">
+          <div class="feature-icon-box">🚦</div>
+          <h3>Semáforo Predictivo</h3>
+          <p>Algoritmo Random Forest que clasifica en tiempo real cada turno en Verde (Bajo), Amarillo (Medio) o Rojo (Alto riesgo de inasistencia).</p>
+        </div>
+
+        <div class="feature-card reveal delay-3">
+          <div class="feature-icon-box">💰</div>
+          <h3>Seña &amp; WhatsApp</h3>
+          <p>Exigencia automática de seña obligatoria del 50% y generación de plantillas de confirmación instantánea por WhatsApp.</p>
+        </div>
+
+        <div class="feature-card reveal delay-1">
+          <div class="feature-icon-box">🏟️</div>
+          <h3>Grilla de las 13 Canchas</h3>
+          <p>Matriz interactiva de turnos (14:00 a 23:00 hs) con codificación por nivel de riesgo y navegación rápida por fechas.</p>
+        </div>
+
+        <div class="feature-card reveal delay-2">
+          <div class="feature-icon-box">🌦️</div>
+          <h3>Análisis Climático Libre</h3>
+          <p>Capacidad de simular cualquier condición meteorológica (Sol, Lluvia, Frío) y observar la respuesta del modelo en lenguaje claro.</p>
+        </div>
+
+        <div class="feature-card reveal delay-3">
+          <div class="feature-icon-box">📊</div>
+          <h3>Auditoría &amp; Control RBAC</h3>
+          <p>Trazabilidad completa de la digitalización del cuaderno original, métricas de limpieza e inspección de privilegios de usuario.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección Flujo de Integración Punta a Punta -->
+    <div class="landing-section bg-contrast reveal">
+      <div class="section-header">
+        <h2>Flujo de Integración Punta a Punta</h2>
+        <p>Cómo los datos manuscritos del cuaderno se transforman en decisiones operativas automáticas.</p>
+      </div>
+
+      <div class="steps-flow">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h4>Cuaderno Digitalizado</h4>
+          <p>Extracción de 100 registros históricos (2024-2025). Depuración de fechas erróneas (año 1900) e imputación por mediana.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h4>Pipeline de ML</h4>
+          <p>RandomForest optimizado con GridSearchCV. Enriquecimiento meteorológico y cálculo de conducta del cliente sin data leakage.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h4>Backend FastAPI</h4>
+          <p>Exposición de endpoints REST seguros, sanitización contra inyecciones XSS y bloqueo atómico de colisiones (HTTP 409).</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <h4>Panel Operativo</h4>
+          <p>Semáforo predictivo tricolor para el recepcionista, cobro de señas y visualización dinámica en la grilla deportiva.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección Institucional y Equipo -->
+    <div class="landing-section reveal">
+      <div class="section-header">
+        <h2>Equipo de Trabajo y Contexto Institucional</h2>
+        <p>Instituto Superior Politécnico Córdoba (ISPC) · Evidencia de Aprendizaje Nº 3 · Ciclo 2026</p>
+      </div>
+
+      <div class="team-box">
+        <div class="team-col">
+          <h4>Integrantes - Grupo Nº 6</h4>
+          <ul>
+            <li><strong>Yanina Roldan</strong></li>
+            <li><strong>Gabriel Yoles Trucco</strong></li>
+            <li><strong>Fabricio Cocconi</strong></li>
+            <li><strong>Franco Gonzalo Arce</strong></li>
+          </ul>
+        </div>
+        <div class="team-col">
+          <h4>Docentes Evaluadores</h4>
+          <ul>
+            <li><strong>Prof. David Cabrera</strong> (Testeo de Software)</li>
+            <li><strong>Prof. Carolina Ahumada</strong> (Testeo de Software)</li>
+            <li><strong>Prof. Daniela Accietto</strong> (Práctica Profesionalizante I)</li>
+            <li><strong>Prof. Florencia García</strong> (Práctica Profesionalizante I)</li>
+          </ul>
+        </div>
+        <div class="team-col">
+          <h4>Tecnicaturas Integradas</h4>
+          <p>• Tecnicatura Superior en Ciencia de Datos e Inteligencia Artificial</p>
+          <p>• Tecnicatura Superior en Desarrollo de Software</p>
+          <p>• Complejo Deportivo Esquiu3 (13 Canchas en Córdoba)</p>
+        </div>
+      </div>
+
+      <!-- Banner Final CTA -->
+      <div class="landing-cta-banner reveal">
+        <h3>¿Listo para probar el MVP Beta en acción?</h3>
+        <p>Ingresa al panel interactivo de reservas, consulta la grilla de canchas y prueba el semáforo predictivo.</p>
+        <button class="btn-hero-primary" id="btn-bottom-start" type="button">Abrir Dashboard MVP →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- MODO 2: DASHBOARD OPERATIVO DEL MVP (VISTAS INTERNAS)                     -->
+  <!-- ========================================================================= -->
+  <main class="dashboard-page" id="view-dashboard" hidden>
+    <!-- ============ VISTA 1: RECEPCIÓN ============ -->
+    <section class="view active" id="view-recepcion" aria-labelledby="h-recepcion">
+      <div class="view-head">
+        <h2 id="h-recepcion">Recepción y Nueva Reserva</h2>
+        <p>Cargá el turno, consultá el pronóstico y obtené el semáforo de riesgo de inasistencia antes de confirmar.</p>
+      </div>
+
+      <div class="split">
+        <form class="card form-card" id="form-reserva" autocomplete="off" novalidate>
+          <div class="grid-2">
+            <label class="field"><span>Fecha</span><input type="date" id="f-fecha" required></label>
+            <label class="field"><span>Hora del turno</span><select id="f-hora"></select></label>
+          </div>
+
+          <div class="grid-2">
+            <label class="field"><span>Cancha</span><select id="f-cancha"></select></label>
+            <label class="field"><span>Tipo de cancha</span><input type="text" id="f-tipo" readonly></label>
+          </div>
+
+          <label class="field">
+            <span>Cliente</span>
+            <input type="text" id="f-cliente" list="lista-clientes" placeholder="Ej: CLI-103 o un cliente nuevo" maxlength="64" required>
+            <datalist id="lista-clientes"></datalist>
+            <small id="cliente-hint" class="hint">Escribí o elegí un ID de cliente del cuaderno.</small>
+          </label>
+
+          <fieldset class="weather">
+            <legend>Clima: ingresá el que quieras</legend>
+            <div class="presets" role="group" aria-label="Climas rápidos">
+              <button type="button" class="chip-btn" data-clima="Despejado" data-temp="24" data-hum="50">☀️ Despejado</button>
+              <button type="button" class="chip-btn" data-clima="Nublado" data-temp="16" data-hum="70">⛅ Nublado</button>
+              <button type="button" class="chip-btn" data-clima="Lluvia" data-temp="13" data-hum="90">🌧️ Lluvia</button>
+              <button type="button" class="chip-btn" data-clima="Frío Extremo" data-temp="4" data-hum="65">❄️ Frío extremo</button>
+            </div>
+            <div class="weather-actions">
+              <button type="button" class="btn ghost small" id="btn-clima">Autocompletar pronóstico</button>
+              <label class="check"><input type="checkbox" id="chk-caida"> Simular caída del servicio climático</label>
+            </div>
+            <div class="grid-3">
+              <label class="field"><span>Condición</span><select id="f-clima"></select></label>
+              <label class="field"><span>Temperatura (°C)</span><input type="number" id="f-temp" step="0.5" value="20" min="-15" max="50"></label>
+              <label class="field"><span>Humedad (%)</span><input type="number" id="f-hum" step="1" value="55" min="0" max="100"></label>
+            </div>
+            <small id="clima-fuente" class="hint"></small>
+          </fieldset>
+
+          <label class="field">
+            <span>Anotación del cuaderno</span>
+            <textarea id="f-nota" rows="2" maxlength="300" placeholder="Ej: Fijo de los lunes, paga en efectivo"></textarea>
+          </label>
+
+          <div class="actions">
+            <button type="button" class="btn ghost" id="btn-evaluar">Evaluar riesgo</button>
+            <button type="submit" class="btn primary" id="btn-guardar">Registrar reserva</button>
+          </div>
+        </form>
+
+        <aside class="card result-card" id="panel-resultado" aria-live="polite">
+          <div class="empty-state" id="resultado-vacio">
+            <div class="semaforo idle"><i></i><i></i><i></i></div>
+            <h3>Semáforo predictivo</h3>
+            <p>Completá el formulario y presioná <b>Evaluar riesgo</b> o <b>Registrar reserva</b>.</p>
+          </div>
+          <div id="resultado-contenido" hidden></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ VISTA 2: GRILLA ============ -->
+    <section class="view" id="view-grilla" aria-labelledby="h-grilla">
+      <div class="view-head row">
+        <div>
+          <h2 id="h-grilla">Grilla de las 13 Canchas <small>14:00 a 23:00 hs</small></h2>
+          <p>Cada turno se colorea según el riesgo de No-Show estimado por el modelo.</p>
+        </div>
+        <div class="date-nav">
+          <button class="btn ghost small" id="g-prev" aria-label="Día anterior">‹</button>
+          <input type="date" id="g-fecha" aria-label="Fecha de la grilla">
+          <button class="btn ghost small" id="g-next" aria-label="Día siguiente">›</button>
+          <button class="btn ghost small" id="g-hoy">Hoy</button>
+        </div>
+      </div>
+
+      <div class="kpis" id="g-kpis"></div>
+      <div class="quick-dates" id="g-quick"></div>
+
+      <div class="legend">
+        <span><i class="dot verde"></i> Riesgo bajo</span>
+        <span><i class="dot amarillo"></i> Riesgo medio</span>
+        <span><i class="dot rojo"></i> Riesgo alto</span>
+        <span><i class="dot libre"></i> Libre</span>
+        <span><i class="dot cancelada"></i> Cancelada (turno liberado)</span>
+      </div>
+
+      <div class="grid-scroll" id="g-scroll" tabindex="0" aria-label="Grilla de canchas con scroll horizontal y vertical">
+        <table class="grilla" id="g-tabla"></table>
+      </div>
+    </section>
+
+    <!-- ============ VISTA 3: AUDITORÍA ============ -->
+    <section class="view" id="view-auditoria" aria-labelledby="h-auditoria">
+      <div class="view-head">
+        <h2 id="h-auditoria">Auditoría del Cuaderno Digitalizado &amp; Modelo ML</h2>
+        <p>Trazabilidad de la limpieza aplicada al cuaderno físico y desempeño del Random Forest.</p>
+      </div>
+      <div id="auditoria-bloqueo" class="card locked" hidden></div>
+      <div id="auditoria-contenido" hidden></div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-content">
+      <img src="/static/logo.png" alt="Esquiu 3" class="footer-logo-img">
+      <p><strong>Esquiu3</strong> · Sistema de Gestión de Canchas y Machine Learning Predictivo</p>
+      <p>Evidencia de Aprendizaje Nº 3 · Instituto Superior Politécnico Córdoba (ISPC) · Ciclo 2026</p>
+      <div class="footer-links">
+        <a href="/docs" target="_blank" rel="noopener">Documentación API (Swagger)</a>
+        <span>·</span>
+        <a href="/api/v1/health" target="_blank" rel="noopener">Health Check</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast-zone" id="toasts" aria-live="polite"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
