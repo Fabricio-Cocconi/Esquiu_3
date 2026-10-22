@@ -1,48 +1,48 @@
 {
   "CF-01": {
-    "duracion_s": 0.046,
+    "duracion_s": 0.055,
     "estado": "PASSED",
     "nodeid": "tests/test_esquiu3.py::test_cf01_registro_exitoso_cancha_libre",
     "obtenido": "Reserva R-0001 guardada con éxito (HTTP 201). La Cancha 5 a las 20:00 hs figura ocupada en la grilla."
   },
   "CF-02": {
-    "duracion_s": 0.019,
+    "duracion_s": 0.024,
     "estado": "PASSED",
     "nodeid": "tests/test_esquiu3.py::test_cf02_bloqueo_reserva_duplicada",
     "obtenido": "El sistema bloqueó el turno duplicado con HTTP 409 y mensaje: 'Horario no disponible: Cancha 5 ya está reservada el 2026-11-02 a las 20:00 (reserva R-0001).'."
   },
   "CF-03": {
-    "duracion_s": 0.007,
+    "duracion_s": 0.006,
     "estado": "PASSED",
     "nodeid": "tests/test_esquiu3.py::test_cf03_validacion_campos_obligatorios_vacios",
     "obtenido": "El sistema rechazó los datos incompletos con HTTP 422 mostrando qué campo falta completar."
   },
   "CF-04": {
-    "duracion_s": 0.019,
+    "duracion_s": 0.018,
     "estado": "PASSED",
     "nodeid": "tests/test_esquiu3.py::test_cf04_prediccion_semaforo_rojo_cliente_faltas_horario_pico",
     "obtenido": "Semáforo: Rojo - Alto (98.1% de riesgo). Acción: Exigir seña obligatoria del 50% y enviar recordatorio automático por WhatsApp."
   },
   "CF-05": {
-    "duracion_s": 0.021,
+    "duracion_s": 0.018,
     "estado": "PASSED",
     "nodeid": "tests/test_esquiu3.py::test_cf05_cliente_nuevo_sin_historial",
     "obtenido": "Cliente nuevo CLI-NUEVO-ISPC registrado con éxito (HTTP 201). Se le asignó el promedio general de asistencia sin fallos."
   },
   "CS-01": {
-    "duracion_s": 0.014,
+    "duracion_s": 0.011,
     "estado": "PASSED",
     "nodeid": "tests/test_esquiu3.py::test_cs01_permisos_por_rol_recepcionista_denegado",
     "obtenido": "Rol Recepcionista bloqueado correctamente con HTTP 403 Acceso Denegado. Rol Admin accede con HTTP 200."
   },
   "CS-02": {
-    "duracion_s": 0.021,
+    "duracion_s": 0.018,
     "estado": "PASSED",
     "nodeid": "tests/test_esquiu3.py::test_cs02_campos_seguros_sanitizacion_xss",
     "obtenido": "El texto malicioso fue neutralizado y convertido a texto plano (&lt;script&gt;) sin ejecutarse."
   },
   "CU-01": {
-    "duracion_s": 0.037,
+    "duracion_s": 0.034,
     "estado": "PASSED",
     "nodeid": "tests/test_esquiu3.py::test_cu01_usabilidad_claridad_visual_semaforo",
     "obtenido": "Semáforos validados: Baja -> Verde - Bajo; Crítica -> Rojo - Alto con indicación de seña clara."

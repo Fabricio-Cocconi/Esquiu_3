@@ -616,8 +616,6 @@ if STATIC_DIR.exists():
 
 @app.get("/", include_in_schema=False)
 @app.get("/index.html", include_in_schema=False)
-@app.get("/api/index", include_in_schema=False)
-@app.get("/api/index.py", include_in_schema=False)
 def index():
     ruta = _buscar_index_html()
     if ruta and ruta.exists():
@@ -632,16 +630,5 @@ def favicon():
         return FileResponse(logo, media_type="image/png")
     return JSONResponse(status_code=204, content=None)
 
-
-@app.api_route("/{path_name:path}", methods=["GET", "POST", "PUT", "DELETE"], include_in_schema=False)
-async def catch_all_debug(request: Request, path_name: str):
-    return {
-        "debug": True,
-        "path_param": path_name,
-        "url_path": request.url.path,
-        "scope_path": request.scope.get("path"),
-        "root_path": request.scope.get("root_path"),
-        "headers": dict(request.headers),
-    }
 
 
