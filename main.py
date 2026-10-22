@@ -422,11 +422,15 @@ def _prediccion_de(d: PrediccionIn) -> dict:
 
 
 @app.get("/api/v1/health", tags=["Sistema"])
+@app.get("/v1/health", tags=["Sistema"], include_in_schema=False)
+@app.get("/api/health", tags=["Sistema"], include_in_schema=False)
+@app.get("/health", tags=["Sistema"], include_in_schema=False)
 def health():
     return {"estado": "ok", "modelo": modelo.bundle["version_modelo"], "entrenado_en": modelo.bundle["entrenado_en"]}
 
 
 @app.get("/api/v1/catalogo", tags=["Sistema"])
+@app.get("/v1/catalogo", tags=["Sistema"], include_in_schema=False)
 def catalogo():
     clientes = sorted(({"id": k, "tasa": v["tasa"], "n_reservas": v["n_reservas"], "categoria": v["categoria"]}
                        for k, v in modelo.bundle["historial_clientes"].items()), key=lambda c: c["id"])
@@ -436,6 +440,7 @@ def catalogo():
 
 
 @app.post("/api/v1/reservas/predict", tags=["Predicción"])
+@app.post("/v1/reservas/predict", tags=["Predicción"], include_in_schema=False)
 def predecir(d: PrediccionIn):
     t0 = time.perf_counter()
     res = _prediccion_de(d)
@@ -445,6 +450,7 @@ def predecir(d: PrediccionIn):
 
 
 @app.post("/api/v1/reservas", status_code=201, tags=["Reservas"])
+@app.post("/v1/reservas", status_code=201, tags=["Reservas"], include_in_schema=False)
 def crear_reserva(d: ReservaIn):
     cliente = sanitizar_texto(d.Cliente_ID, 64)                       # XSS: escape ANTES de persistir
     nota = sanitizar_texto(d.Anotacion_Cuaderno, 300)
@@ -459,6 +465,7 @@ def crear_reserva(d: ReservaIn):
 
 
 @app.post("/api/v1/reservas/{reserva_id}/sena", tags=["Reservas"])
+@app.post("/v1/reservas/{reserva_id}/sena", tags=["Reservas"], include_in_schema=False)
 def registrar_sena(reserva_id: str):
     r = store.buscar(sanitizar_texto(reserva_id, 20))
     if not r or r["origen"] != "mvp":
@@ -468,6 +475,7 @@ def registrar_sena(reserva_id: str):
 
 
 @app.post("/api/v1/reservas/{reserva_id}/recordatorio-whatsapp", tags=["Reservas"])
+@app.post("/v1/reservas/{reserva_id}/recordatorio-whatsapp", tags=["Reservas"], include_in_schema=False)
 def recordatorio_whatsapp(reserva_id: str):
     """Pasarela de WhatsApp SIMULADA: no envia mensajes reales (limitacion conocida de la Beta)."""
     r = store.buscar(sanitizar_texto(reserva_id, 20))
@@ -480,7 +488,9 @@ def recordatorio_whatsapp(reserva_id: str):
 
 
 @app.get("/api/v1/clima/pronostico", tags=["Clima"])
+@app.get("/v1/clima/pronostico", tags=["Clima"], include_in_schema=False)
 def pronostico(fecha: date, simular_caida: bool = False):
+
     try:
         return {**_clima_simulado(fecha, simular_caida), "fuente": "servicio_climatico_simulado", "fallback": False}
     except ClimaNoDisponible:
@@ -504,7 +514,9 @@ def _estadisticas_cuaderno() -> dict:
 
 
 @app.get("/api/v1/canchas/ocupacion", tags=["Canchas"])
+@app.get("/v1/canchas/ocupacion", tags=["Canchas"], include_in_schema=False)
 def ocupacion(fecha: date):
+
     f = fecha.isoformat()
     delDia = [r for r in store.reservas if r["Fecha"] == f]
     canchas, ocupados, riesgo = [], 0, Counter()
@@ -536,6 +548,7 @@ def ocupacion(fecha: date):
 
 
 @app.get("/api/v1/admin/metricas", tags=["Administración"])
+@app.get("/v1/admin/metricas", tags=["Administración"], include_in_schema=False)
 def admin_metricas(_: str = Depends(requiere_admin)):
     pred = store.contador["predicciones"]
     return {
@@ -551,7 +564,9 @@ def admin_metricas(_: str = Depends(requiere_admin)):
 
 
 @app.get("/api/v1/admin/cuaderno", tags=["Administración"])
+@app.get("/v1/admin/cuaderno", tags=["Administración"], include_in_schema=False)
 def admin_cuaderno(_: str = Depends(requiere_admin)):
+
     """Filas ORIGINALES del CSV (tal cual se digitalizaron), marcando artefactos y sanitizadas contra XSS."""
     raw = store.df_crudo
     filas = []
