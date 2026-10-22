@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="logo.png" alt="Esquiu3 Logo" width="130" />
+  <img src="static/logo.png" alt="Esquiu3 Logo" width="130" />
   <h1>🏟️ Esquiu3 — Gestión Integral de Turnos & Analítica Predictiva (No-Show)</h1>
   <p><strong>Versión Beta del MVP · Evidencia de Aprendizaje Nº 3 · ISPC (Ciclo 2026)</strong></p>
 
