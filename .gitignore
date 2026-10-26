@@ -45,4 +45,6 @@ GUIA_METODOS_TESTEO.md
 CARPETA_DEFENSA/
 *.pptx
 GUIA_DEFENSA_ABP_8MIN.md
+pytest.bat
+pytest.ps1
 
