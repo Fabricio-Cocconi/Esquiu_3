@@ -299,7 +299,9 @@ class ReservaStore:
         with self.lock:                      # check + insert atomico (evita doble reserva concurrente)
             self.verificar_disponibilidad(data["Cancha"], data["Fecha"], data["Hora"])
             self._seq += 1
-            data.update({"id": f"R-{self._seq:04d}", "origen": "mvp", "Estado_Reserva": "Confirmada",
+            requiere_sena = bool(data.get("prediccion", {}).get("requiere_sena", False))
+            estado_inicial = "Pendiente de seña" if requiere_sena else "Confirmada"
+            data.update({"id": f"R-{self._seq:04d}", "origen": "mvp", "Estado_Reserva": estado_inicial,
                          "sena_pagada": False, "whatsapp_enviado": False,
                          "creada_en": datetime.now().isoformat(timespec="seconds")})
             self.reservas.append(data)
@@ -505,7 +507,14 @@ def registrar_sena(reserva_id: str):
     if not r or r["origen"] != "mvp":
         raise HTTPException(404, detail={"codigo": "NO_ENCONTRADA", "mensaje": "Reserva no encontrada"})
     r["sena_pagada"] = True
-    return {"mensaje": "Seña registrada", "id": r["id"], "monto_sena": r["prediccion"]["monto_sena"]}
+    r["Estado_Reserva"] = "Confirmada"
+    try:
+        mvp = [x for x in store.reservas if x.get("origen") == "mvp"]
+        with open(DATA_FILE, "w", encoding="utf-8") as f:
+            json.dump(mvp, f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+    return {"mensaje": "Seña registrada y turno confirmado", "id": r["id"], "monto_sena": r["prediccion"]["monto_sena"], "estado": r["Estado_Reserva"]}
 
 
 @app.post("/api/v1/reservas/{reserva_id}/recordatorio-whatsapp", tags=["Reservas"])
@@ -564,6 +573,8 @@ def ocupacion(fecha: date):
                 riesgo[r["prediccion"]["color"]] += 1
                 slots.append({"hora": hora, "estado": "ocupada", "reserva": {
                     "id": r["id"], "cliente": r["Cliente_ID"], "estado": r["Estado_Reserva"], "origen": r["origen"],
+                    "sena_pagada": r.get("sena_pagada", False),
+                    "requiere_sena": r.get("prediccion", {}).get("requiere_sena", False),
                     "color": r["prediccion"]["color"], "nivel_riesgo": r["prediccion"]["nivel_riesgo"],
                     "probabilidad_noshow": r["prediccion"]["probabilidad_noshow"], "nota": r.get("Anotacion_Cuaderno", ""),
                     "clima": r["Condicion_Climatica"]}})

@@ -208,8 +208,16 @@ function renderPrediccion(pred, reserva) {
       h("small", { class: "hint", text: `Sobre un turno de ${money(pred.precio_turno)}. Sin seña el turno no queda confirmado.` }));
     if (reserva) {
       const btnSena = h("button", { class: "btn danger small", id: "btn-sena", text: "Registrar cobro de seña", on: { click: async () => {
-        try { await api(`/api/v1/reservas/${reserva.id}/sena`, { method: "POST" }); btnSena.disabled = true; btnSena.textContent = "Seña cobrada ✓"; toast("Seña registrada."); }
-        catch (e) { toast(e.message, "error"); } } } });
+        try {
+          await api(`/api/v1/reservas/${reserva.id}/sena`, { method: "POST" });
+          btnSena.disabled = true;
+          btnSena.textContent = "Seña cobrada ✓ (Turno Confirmado)";
+          reserva.sena_pagada = true;
+          reserva.Estado_Reserva = "Confirmada";
+          guardarReservaLocal(reserva);
+          toast("Seña registrada: turno confirmado.");
+        } catch (e) { toast(e.message, "error"); }
+      } } });
       const btnWa = btnWhatsApp(reserva, box);
       box.append(h("div", { class: "row-btns" }, btnSena, btnWa));
     } else {
@@ -331,13 +339,32 @@ function renderGrilla(d) {
       if (s.estado === "ocupada" || resLocal) {
         const rv = s.reserva || resLocal;
         if (!s.reserva && resLocal) extraOcupadas++;
-        const real = rv.origen === "cuaderno" ? ({ Completada: "✓ Asistió", Ausente: "✗ Ausente" }[rv.estado] || rv.estado) : "Confirmada";
         const color = rv.color || (rv.prediccion && rv.prediccion.color) || "verde";
         const nivel = rv.nivel_riesgo || (rv.prediccion && rv.prediccion.nivel_riesgo) || "Riesgo";
         const prob = rv.probabilidad_noshow ?? (rv.prediccion && rv.prediccion.probabilidad_noshow) ?? 0.05;
         const clienteNom = rv.cliente || rv.Cliente_ID || "Cliente";
         const notaTxt = rv.nota || rv.Anotacion_Cuaderno || "";
-        btn = h("button", { class: "celda " + color, title: `${unesc(clienteNom)} · ${nivel} · ${pct(prob)} · ${unesc(notaTxt)}` },
+
+        let real;
+        if (rv.origen === "cuaderno") {
+          real = ({ Completada: "✓ Asistió", Ausente: "✗ Ausente" }[rv.estado] || rv.estado);
+        } else {
+          const esRojo = color === "rojo";
+          const tieneSena = rv.sena_pagada === true || rv.estado === "Confirmada (Seña ✓)";
+          if (esRojo && !tieneSena) {
+            real = "Pendiente de seña";
+          } else if (tieneSena && esRojo) {
+            real = "Confirmada (Seña ✓)";
+          } else {
+            real = rv.estado || "Confirmada";
+          }
+        }
+
+        btn = h("button", {
+          class: "celda " + color,
+          title: `${unesc(clienteNom)} · ${nivel} · ${pct(prob)} · Estado: ${real} · ${unesc(notaTxt)}`,
+          on: { click: () => toast(`${unesc(clienteNom)} (${c.cancha} ${s.hora}): ${real}`) }
+        },
           h("b", { text: unesc(clienteNom) }), h("span", { text: `${(prob * 100).toFixed(0)}% · ${real}` }));
       } else if (s.cancelada_previa) {
         btn = h("button", { class: "celda cancelada", title: "Cancelada: turno liberado. Click para reservar.", on: { click: () => prellenar(c.cancha, s.hora, d.fecha) } },
