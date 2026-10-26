@@ -9,6 +9,7 @@ Docs API:  http://127.0.0.1:8000/docs
 from __future__ import annotations
 
 import html
+import json
 import re
 import threading
 import time
@@ -30,6 +31,7 @@ import train_model as tm
 
 BASE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = BASE_DIR / "static"
+DATA_FILE = Path("/tmp/reservas_mvp.json") if Path("/tmp").exists() else BASE_DIR / "reservas_mvp.json"
 
 HORAS_GRILLA = [f"{h:02d}:00" for h in range(14, 23)]      # turnos de 60 min: 14:00 ... 22:00 (cierre 23:00)
 CONDICIONES = ["Despejado", "Nublado", "Lluvia", "Frío Extremo"]
@@ -208,6 +210,27 @@ class ReservaStore:
         self.modelo.clima_hist = {c: {"n": int(r["size"]), "no_show": int(r["sum"]),
                                       "pct": round(100 * float(r["sum"]) / int(r["size"]), 1)} for c, r in _h.iterrows()}
         self.reset()
+        self._cargar_persistidas()
+
+    def _cargar_persistidas(self) -> None:
+        if DATA_FILE.exists():
+            try:
+                with open(DATA_FILE, "r", encoding="utf-8") as f:
+                    guardadas = json.load(f)
+                    if isinstance(guardadas, list):
+                        for r in guardadas:
+                            if not any(x.get("id") == r.get("id") for x in self.reservas):
+                                self.reservas.append(r)
+                                rid = r.get("id", "")
+                                if rid.startswith("R-"):
+                                    try:
+                                        num = int(rid.replace("R-", ""))
+                                        if num > self._seq:
+                                            self._seq = num
+                                    except ValueError:
+                                        pass
+            except Exception:
+                pass
 
     # -- sembrado historico ------------------------------------------------------------
     def _sembrar_historico(self) -> list[dict]:
@@ -237,6 +260,11 @@ class ReservaStore:
             self.reservas = self._sembrar_historico()
             self.contador = Counter()
             self._seq = 0
+            if DATA_FILE.exists():
+                try:
+                    DATA_FILE.unlink(missing_ok=True)
+                except Exception:
+                    pass
 
     # -- disponibilidad --------------------------------------------------------------
     @staticmethod
@@ -276,6 +304,12 @@ class ReservaStore:
                          "creada_en": datetime.now().isoformat(timespec="seconds")})
             self.reservas.append(data)
             self.contador["reservas_creadas"] += 1
+            try:
+                mvp = [r for r in self.reservas if r.get("origen") == "mvp"]
+                with open(DATA_FILE, "w", encoding="utf-8") as f:
+                    json.dump(mvp, f, ensure_ascii=False, indent=2)
+            except Exception:
+                pass
             return data
 
     def buscar(self, rid: str) -> dict | None:

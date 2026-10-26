@@ -32,6 +32,18 @@ const clear = (el) => { while (el.firstChild) el.removeChild(el.firstChild); ret
 const hoyISO = () => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); };
 const sumarDias = (iso, n) => { const d = new Date(iso + "T12:00:00"); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
 
+function obtenerReservasLocales() {
+  try { return JSON.parse(localStorage.getItem("esquiu3_reservas_mvp") || "[]"); }
+  catch (_) { return []; }
+}
+function guardarReservaLocal(r) {
+  try {
+    const list = obtenerReservasLocales().filter((x) => x.id !== r.id);
+    list.push(r);
+    localStorage.setItem("esquiu3_reservas_mvp", JSON.stringify(list));
+  } catch (_) {}
+}
+
 function toast(msg, tipo = "") {
   const t = h("div", { class: "toast " + tipo, text: msg });
   $("toasts").append(t);
@@ -214,6 +226,16 @@ function renderPrediccion(pred, reserva) {
     h("span", { text: `Cliente: ${pred.cliente_nuevo ? "nuevo (sin historial)" : pred.categoria_historial}` }),
     h("span", { text: `Historial usado: ${(pred.historial_cumplimiento * 100).toFixed(0)}%` }),
     h("span", { text: `Modelo ${pred.version_modelo}` })));
+
+  if (reserva) {
+    cont.append(h("div", { class: "row-btns", style: "margin-top:14px" },
+      h("button", {
+        class: "btn primary small",
+        style: "width:100%; justify-content:center; font-weight:700; padding:10px 14px; gap:8px",
+        text: `📅 Ver ${reserva.Cancha} (${reserva.Hora} hs) en la Grilla`,
+        on: { click: () => { $("g-fecha").value = reserva.Fecha; irA("grilla"); } }
+      })));
+  }
 }
 function bloqueAnalisisClima(a) {
   const dif = a.diferencia_pp;
@@ -261,12 +283,24 @@ async function guardar(ev) {
   ev.preventDefault();
   const p = payloadFormulario(); const e = validarFormulario(p);
   if (e) return toast(e, "warn");
+
+  // Validación preventiva inmediata de horario duplicado (misma cancha, fecha y hora)
+  const locales = obtenerReservasLocales();
+  const choqueLocal = locales.find((r) => r.Cancha === p.Cancha && r.Fecha === p.Fecha && r.Hora === p.Hora && r.Estado_Reserva !== "Cancelada");
+  if (choqueLocal) {
+    renderBloqueo({ message: `Horario no disponible: ${p.Cancha} ya está reservada el ${p.Fecha} a las ${p.Hora} (reserva ${choqueLocal.id}).` });
+    toast("Horario no disponible: turno duplicado.", "error");
+    return;
+  }
+
   $("btn-guardar").disabled = true;
   try {
     const r = await api("/api/v1/reservas", { method: "POST", body: p });
+    guardarReservaLocal(r.reserva);
     state.grillaCargada = false; state.ultimaReserva = r.reserva; state.modo = "reserva";
+    $("g-fecha").value = p.Fecha;
     renderPrediccion(r.prediccion, r.reserva);
-    toast("Reserva registrada correctamente.");
+    toast(`Reserva ${r.reserva.id} registrada para ${p.Cancha} (${p.Hora} hs).`);
   } catch (err) {
     if (err.status === 409) { renderBloqueo(err); toast("Horario no disponible.", "error"); }
     else toast(unesc(err.message), "error");
@@ -283,27 +317,28 @@ async function cargarGrilla() {
 }
 function renderGrilla(d) {
   const r = d.resumen;
-  const kp = (v, l) => h("div", { class: "kpi" }, h("b", { text: v }), h("span", { text: l }));
-  clear($("g-kpis")).append(kp(r.turnos_ocupados + " / " + r.turnos_totales, "Turnos ocupados"), kp(r.ocupacion_pct + "%", "Ocupación del día"),
-    kp(r.riesgo.rojo, "Riesgo alto"), kp(r.riesgo.amarillo, "Riesgo medio"), kp(r.riesgo.verde, "Riesgo bajo"));
-
-  const quick = clear($("g-quick"));
-  quick.append("Días con más actividad en el cuaderno:");
-  for (const f of d.estadisticas_cuaderno.dias_con_mayor_actividad)
-    quick.append(h("button", { text: f, on: { click: () => { $("g-fecha").value = f; cargarGrilla(); } } }));
+  const locales = obtenerReservasLocales().filter((x) => x.Fecha === d.fecha && x.Estado_Reserva !== "Cancelada");
 
   const tabla = clear($("g-tabla"));
   tabla.append(h("thead", {}, h("tr", {}, h("th", { text: "Cancha" }), d.horas.map((x) => h("th", { text: x })))));
   const body = h("tbody");
+  let extraOcupadas = 0;
   for (const c of d.canchas) {
     const tr = h("tr", {}, h("th", { scope: "row" }, c.cancha, h("small", { text: c.tipo })));
     for (const s of c.slots) {
       let btn;
-      if (s.estado === "ocupada") {
-        const rv = s.reserva;
+      const resLocal = locales.find((x) => x.Cancha === c.cancha && x.Hora === s.hora);
+      if (s.estado === "ocupada" || resLocal) {
+        const rv = s.reserva || resLocal;
+        if (!s.reserva && resLocal) extraOcupadas++;
         const real = rv.origen === "cuaderno" ? ({ Completada: "✓ Asistió", Ausente: "✗ Ausente" }[rv.estado] || rv.estado) : "Confirmada";
-        btn = h("button", { class: "celda " + rv.color, title: `${unesc(rv.cliente)} · ${rv.nivel_riesgo} · ${pct(rv.probabilidad_noshow)} · ${unesc(rv.nota)}` },
-          h("b", { text: unesc(rv.cliente) }), h("span", { text: `${(rv.probabilidad_noshow * 100).toFixed(0)}% · ${real}` }));
+        const color = rv.color || (rv.prediccion && rv.prediccion.color) || "verde";
+        const nivel = rv.nivel_riesgo || (rv.prediccion && rv.prediccion.nivel_riesgo) || "Riesgo";
+        const prob = rv.probabilidad_noshow ?? (rv.prediccion && rv.prediccion.probabilidad_noshow) ?? 0.05;
+        const clienteNom = rv.cliente || rv.Cliente_ID || "Cliente";
+        const notaTxt = rv.nota || rv.Anotacion_Cuaderno || "";
+        btn = h("button", { class: "celda " + color, title: `${unesc(clienteNom)} · ${nivel} · ${pct(prob)} · ${unesc(notaTxt)}` },
+          h("b", { text: unesc(clienteNom) }), h("span", { text: `${(prob * 100).toFixed(0)}% · ${real}` }));
       } else if (s.cancelada_previa) {
         btn = h("button", { class: "celda cancelada", title: "Cancelada: turno liberado. Click para reservar.", on: { click: () => prellenar(c.cancha, s.hora, d.fecha) } },
           h("b", { text: "Cancelada" }), h("span", { text: unesc(s.cancelada_previa.cliente) }));
@@ -315,6 +350,19 @@ function renderGrilla(d) {
     body.append(tr);
   }
   tabla.append(body);
+
+  const ocupadosTotal = r.turnos_ocupados + extraOcupadas;
+  const kp = (v, l) => h("div", { class: "kpi" }, h("b", { text: v }), h("span", { text: l }));
+  clear($("g-kpis")).append(
+    kp(ocupadosTotal + " / " + r.turnos_totales, "Turnos ocupados"),
+    kp(Math.round(100 * ocupadosTotal / r.turnos_totales) + "%", "Ocupación del día"),
+    kp(r.riesgo.rojo, "Riesgo alto"), kp(r.riesgo.amarillo, "Riesgo medio"), kp(r.riesgo.verde, "Riesgo bajo")
+  );
+
+  const quick = clear($("g-quick"));
+  quick.append("Días con más actividad en el cuaderno:");
+  for (const f of d.estadisticas_cuaderno.dias_con_mayor_actividad)
+    quick.append(h("button", { text: f, on: { click: () => { $("g-fecha").value = f; cargarGrilla(); } } }));
 }
 function prellenar(cancha, hora, fecha) {
   $("f-cancha").value = cancha; $("f-hora").value = hora; $("f-fecha").value = fecha; actualizarTipo(); irA("recepcion");
@@ -463,9 +511,8 @@ async function init() {
   ["f-clima", "f-temp", "f-hum"].forEach((id) => $(id).addEventListener("input", reanalizar));
   $("form-reserva").addEventListener("submit", guardar);
 
-  // grilla
-  try { const d0 = await api("/api/v1/canchas/ocupacion?fecha=" + hoyISO()); $("g-fecha").value = d0.estadisticas_cuaderno.dias_con_mayor_actividad[0] || hoyISO(); }
-  catch (_) { $("g-fecha").value = hoyISO(); }
+  // grilla: inicia siempre en la fecha de hoy
+  $("g-fecha").value = hoyISO();
   $("g-fecha").addEventListener("change", cargarGrilla);
   $("g-prev").addEventListener("click", () => { $("g-fecha").value = sumarDias($("g-fecha").value, -1); cargarGrilla(); });
   $("g-next").addEventListener("click", () => { $("g-fecha").value = sumarDias($("g-fecha").value, 1); cargarGrilla(); });
